@@ -2,16 +2,22 @@ package com.example.demo.entities;
 
 import com.example.demo.exeption.AgeException;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import org.springframework.lang.NonNull;
+
+
+import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
-@Table(name = "PERSON")
+@Table(name = "person")
 public class Person {
 
+    @Id
+    @GeneratedValue
     private Long idPerson;
+    @Column(nullable = false,scale = 1)
     private String name;
+    @Column
     private int age;
 
     public Person(){}
@@ -47,7 +53,7 @@ public class Person {
     }
 
     public void setAge(int age) throws AgeException {
-        if(age < 0 || age > 200) throw new AgeException("ERROR");
+//        if(age < 0 || age > 200) throw new AgeException("ERROR");
         this.age = age;
     }
 

@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @EnableJpaRepositories("com.example.demo.repositories")
 @SpringBootApplication
-@ComponentScan("com.example.demo.service")
+@ComponentScan
 public class DemoApplication {
 
 	public static void main(String[] args) {
