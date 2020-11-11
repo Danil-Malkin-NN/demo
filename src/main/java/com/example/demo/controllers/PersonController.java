@@ -1,7 +1,9 @@
 package com.example.demo.controllers;
 
+import com.example.demo.dto.PersonNameAgeDto;
 import com.example.demo.entities.Person;
 import com.example.demo.exeption.AgeException;
+import com.example.demo.exeption.BadInputException;
 import com.example.demo.exeption.NoPersonException;
 import com.example.demo.service.PersonDataService;
 import com.example.demo.service.PersonService;
@@ -27,7 +29,7 @@ public class PersonController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public void putPerson(@RequestBody Person person) throws AgeException {
+    public void putPerson(@RequestBody PersonNameAgeDto person) throws BadInputException {
             personService.addPerson(person);
     }
 

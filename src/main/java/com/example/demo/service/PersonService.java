@@ -1,15 +1,20 @@
 package com.example.demo.service;
 
 
-import com.example.demo.dto.PersonDto;
+import com.example.demo.dto.PersonIdNameDto;
+import com.example.demo.dto.PersonNameAgeDto;
 import com.example.demo.entities.Person;
+import com.example.demo.exeption.BadInputException;
 import com.example.demo.exeption.NoPersonException;
 import com.example.demo.repositories.CustomizedPersonsJpa;
-import org.hibernate.PropertyValueException;
+import org.hibernate.HibernateError;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.ValidationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.validation.ConstraintViolationException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,12 +37,16 @@ public class PersonService {
         PersonService.listPerson = listName;
     }
 
-    public void addPerson(Person person) {
+    public void addPerson(PersonNameAgeDto person) throws BadInputException {
         try{
-            customizedPersonsJpa.save(person);
-        }catch (PropertyValueException e){
-            
+            customizedPersonsJpa.save(mapper.map(person, Person.class));
+        }catch (ValidationException e){
+            throw new BadInputException("bam");
+        } catch (ConstraintViolationException e){
+            System.out.println("safsdf");
         }
+//        javax.validation.ConstraintViolationException
+
 
     }
 
@@ -66,16 +75,16 @@ public class PersonService {
 
     }
 
-    public List<PersonDto> getPersonDtoList(List<Person> personList){
+    public List<PersonIdNameDto> getPersonDtoList(List<Person> personList){
         //Использовать мапер
-        List<PersonDto> personDto = new ArrayList<>();
+        List<PersonIdNameDto> personIdNameDto = new ArrayList<>();
 
 
         for(Person p : personList){
-           personDto.add(mapper.map(p, PersonDto.class));
+           personIdNameDto.add(mapper.map(p, PersonIdNameDto.class));
         }
 
-        return personDto;
+        return personIdNameDto;
     }
 
 }

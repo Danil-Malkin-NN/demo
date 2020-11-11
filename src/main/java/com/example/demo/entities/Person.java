@@ -3,9 +3,11 @@ package com.example.demo.entities;
 import com.example.demo.exeption.AgeException;
 
 import org.springframework.lang.NonNull;
+import org.springframework.lang.Nullable;
 
 
 import javax.persistence.*;
+import javax.validation.constraints.*;
 import java.util.Objects;
 
 @Entity
@@ -15,9 +17,17 @@ public class Person {
     @Id
     @GeneratedValue
     private Long idPerson;
-    @Column(nullable = false,scale = 1)
-    private String name;
+
+    @NonNull
     @Column
+    @Size(min =1, max =45, message = "Bad")
+    @Pattern(message = "Bad input", regexp = "[A-X][a-z]+")
+    private String name;
+
+    @Column
+    @Min(1)
+    @Max(150)
+    @NonNull
     private int age;
 
     public Person(){}
@@ -52,8 +62,8 @@ public class Person {
         return age;
     }
 
-    public void setAge(int age) throws AgeException {
-//        if(age < 0 || age > 200) throw new AgeException("ERROR");
+    public void setAge(int age){
+
         this.age = age;
     }
 
