@@ -2,23 +2,15 @@ package com.example.demo.service;
 
 
 import com.example.demo.dto.PersonIdNameDto;
-import com.example.demo.dto.PersonNameAgeDto;
+import com.example.demo.dto.PersonNameAgePetDto;
 import com.example.demo.entities.Person;
-import com.example.demo.exeption.BadInputException;
-import com.example.demo.exeption.NoPersonException;
+import com.example.demo.exeption.NoEntitiesException;
 import com.example.demo.repositories.CustomizedPersonsJpa;
-import org.hibernate.HibernateError;
 import org.modelmapper.ModelMapper;
-import org.modelmapper.ValidationException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseStatus;
 
-import javax.validation.ConstraintViolationException;
-import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,29 +20,26 @@ public class PersonService {
 
     @Autowired
     CustomizedPersonsJpa customizedPersonsJpa;
-
+    @Autowired
+    PetService petService;
 
     ModelMapper mapper = new ModelMapper();
 
-    public List<Person> getListPerson() {
+    public List<?> getListPerson() {
 
-        return  customizedPersonsJpa.findAll();
+        return getPersonDtoList(customizedPersonsJpa.findAll(), PersonNameAgePetDto.class);
+
     }
-
-    public void setListPerson(ArrayList<Person> listName) {
-        PersonService.listPerson = listName;
-    }
-
 
     public void addPerson(Person person)  {
         customizedPersonsJpa.save(person);
     }
 
-    public void removePerson(Long id) throws NoPersonException{
+    public void removePerson(Long id) throws NoEntitiesException {
         if(customizedPersonsJpa.existsById(id)){
             customizedPersonsJpa.deleteById(id);
         }else{
-           throw  new NoPersonException("Person does not exist");
+           throw  new NoEntitiesException("Person does not exist");
         }
     }
 
@@ -63,25 +52,33 @@ public class PersonService {
     }
 
     public List<?> getListPersonWithParam(String name, boolean shortPrint){
-        List<Person> personList;
+        List<?> personList;
         personList = name == null ? getListPerson() : getListPersonWithParam(name);
 
          return shortPrint ?
-               getPersonDtoList(personList) : personList;
+               getPersonDtoList(personList, PersonIdNameDto.class) : personList;
 
     }
 
-    public List<PersonIdNameDto> getPersonDtoList(List<Person> personList){
-        //Использовать мапер
-        List<PersonIdNameDto> personIdNameDto = new ArrayList<>();
+    public List<?> getPersonDtoList(List<?> personList, Type T){
 
+        List<?> dto = new ArrayList<>();
+        personList.forEach(person -> {
+            dto.add(mapper.map(person, T));
+        });
 
-        for(Person p : personList){
-           personIdNameDto.add(mapper.map(p, PersonIdNameDto.class));
-        }
-
-        return personIdNameDto;
+        return dto;
     }
+
+
+    public void addPet(Long idPerson, Long idPet){
+        Person person  = getPersonById(idPerson);
+
+        person.addPet(petService.getPetById(idPet));
+
+        customizedPersonsJpa.save(person);
+    }
+
 
 
 

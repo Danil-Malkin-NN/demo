@@ -4,9 +4,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus( value = HttpStatus.BAD_REQUEST)
-public class NoPersonException extends Exception{
+public class NoEntitiesException extends Exception{
 
-    public NoPersonException(String message) {
+    public NoEntitiesException(String message) {
         super(message);
     }
 }

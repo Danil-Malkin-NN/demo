@@ -7,17 +7,22 @@ package com.example.demo.entities;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "person")
 public class Person {
 
+    Person(){
+
+    }
+
     @Id
     @GeneratedValue
     private Long idPerson;
-
-
 
     @Column
     @NotBlank(message = "Name is mandatory")
@@ -31,7 +36,32 @@ public class Person {
     @NotNull(message = "Age is mandatory")
     private Integer age;
 
-    public Person(){}
+    @ManyToMany
+    @JoinTable(name = "pet_person",
+            joinColumns = @JoinColumn(name = "id_person"),
+            inverseJoinColumns =@JoinColumn(name = "id_pet"))
+    private Set<Pet> petList;
+
+    public Set<Pet> getPetList() {
+        return petList;
+    }
+
+    public void setPetList(Set<Pet> petList) {
+        this.petList = petList;
+    }
+
+    public void addPet(Pet pet) {
+        this.petList.add(pet);
+        pet.getPersonList().add(this);
+    }
+
+    public void deletePet(Pet pet){
+
+        this.petList.remove(pet);
+        pet.getPersonList().remove(this);
+    }
+
+
 
     public Person(String name) {
         this.name = name;
