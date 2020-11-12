@@ -11,7 +11,11 @@ import org.hibernate.HibernateError;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.ValidationException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 import javax.validation.ConstraintViolationException;
 import java.lang.reflect.InvocationTargetException;
@@ -37,17 +41,9 @@ public class PersonService {
         PersonService.listPerson = listName;
     }
 
-    public void addPerson(PersonNameAgeDto person) throws BadInputException {
-        try{
-            customizedPersonsJpa.save(mapper.map(person, Person.class));
-        }catch (ValidationException e){
-            throw new BadInputException("bam");
-        } catch (ConstraintViolationException e){
-            System.out.println("safsdf");
-        }
-//        javax.validation.ConstraintViolationException
 
-
+    public void addPerson(Person person)  {
+        customizedPersonsJpa.save(person);
     }
 
     public void removePerson(Long id) throws NoPersonException{
@@ -86,5 +82,7 @@ public class PersonService {
 
         return personIdNameDto;
     }
+
+
 
 }

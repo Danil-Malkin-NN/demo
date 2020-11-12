@@ -8,8 +8,12 @@ import com.example.demo.exeption.NoPersonException;
 import com.example.demo.service.PersonDataService;
 import com.example.demo.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -29,8 +33,9 @@ public class PersonController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public void putPerson(@RequestBody PersonNameAgeDto person) throws BadInputException {
+    public ResponseEntity<?> putPerson(@Valid @RequestBody Person person)  {
             personService.addPerson(person);
+        return new ResponseEntity<String>(HttpStatus.OK);
     }
 
     @RequestMapping(value = "{id}", method = RequestMethod.DELETE)
@@ -45,14 +50,5 @@ public class PersonController {
         return personService.getListPersonWithParam(name, shortPrint);
 
     }
-
-
-
-
-
-
-
-
-
 
 }

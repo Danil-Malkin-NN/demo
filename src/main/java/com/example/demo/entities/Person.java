@@ -1,9 +1,8 @@
 package com.example.demo.entities;
 
-import com.example.demo.exeption.AgeException;
 
-import org.springframework.lang.NonNull;
-import org.springframework.lang.Nullable;
+
+
 
 
 import javax.persistence.*;
@@ -18,17 +17,19 @@ public class Person {
     @GeneratedValue
     private Long idPerson;
 
-    @NonNull
+
+
     @Column
-    @Size(min =1, max =45, message = "Bad")
-    @Pattern(message = "Bad input", regexp = "[A-X][a-z]+")
+    @NotBlank(message = "Name is mandatory")
+    @Size(max =45, message = "Max is 45 ")
+    @Pattern(message = "incorrect name", regexp = "[A-X][a-z]+")
     private String name;
 
     @Column
-    @Min(1)
-    @Max(150)
-    @NonNull
-    private int age;
+    @Min(value = 1, message = "Minimum is 1")
+    @Max(value = 150, message = "Maximum is 150")
+    @NotNull(message = "Age is mandatory")
+    private Integer age;
 
     public Person(){}
 
@@ -57,12 +58,12 @@ public class Person {
         this.name = name;
     }
 
-    public int getAge() {
+    public Integer getAge() {
 
         return age;
     }
 
-    public void setAge(int age){
+    public void setAge(Integer age){
 
         this.age = age;
     }
