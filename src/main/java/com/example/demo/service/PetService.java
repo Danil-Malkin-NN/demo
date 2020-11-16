@@ -1,13 +1,17 @@
 package com.example.demo.service;
 
 import com.example.demo.dto.PetNameAgeDto;
+import com.example.demo.dto.PetNameAgePersonDto;
+import com.example.demo.entities.Person;
 import com.example.demo.entities.Pet;
 import com.example.demo.exeption.NoEntitiesException;
 import com.example.demo.repositories.CustomizedPetJpa;
+import com.fasterxml.jackson.annotation.JacksonAnnotationsInside;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,8 +24,9 @@ public class PetService {
 
     ModelMapper mapper = new ModelMapper();
 
-    public  List<Pet> getListPet() {
-        return listPet = cpj.findAll();
+    public  List<?> getListPet() {
+
+        return getPersonDtoList(cpj.findAll(), PetNameAgePersonDto.class);
     }
 
     public void addPet(Pet pet){
@@ -46,26 +51,26 @@ public class PetService {
     }
 
     public List<?> getListPetWithParam(String name, boolean shortPrint){
-        List<Pet> petsList;
+        List<?> petsList;
         petsList = name == null ? getListPet() : getListPetWithParam(name);
 
         return shortPrint ?
-                getPetDtoList(petsList) : petsList;
+                getPersonDtoList(petsList, PetNameAgeDto.class) : petsList;
 
     }
 
-    public List<PetNameAgeDto> getPetDtoList(List<Pet> listPet){
-        List<PetNameAgeDto> petNameAgeDtos = new ArrayList<>();
-        for (Pet p: listPet){
-            petNameAgeDtos.add(mapper.map(p, PetNameAgeDto.class));
-        }
-        return petNameAgeDtos;
+
+    public List<?> getPersonDtoList(List<?> personList, Type dtoClass){
+
+        List<?> dto = new ArrayList<>();
+        personList.forEach(person -> {
+            dto.add(mapper.map(person, dtoClass));
+        });
+
+        return dto;
     }
 
-    public void addPerson(Long id){
 
-
-    }
 
 
 

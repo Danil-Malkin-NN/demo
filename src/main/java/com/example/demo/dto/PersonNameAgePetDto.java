@@ -7,15 +7,15 @@ public class PersonNameAgePetDto {
 
     private String name;
     private int age;
-    private Set<PetNameAgeDto> petNameAgeDtoSet = new HashSet<>();
+    private Set<PetNameAgeDto> petList = new HashSet<>();
 
 
-    public Set<PetNameAgeDto> getPetNameAgeDtoSet() {
-        return petNameAgeDtoSet;
+    public Set<PetNameAgeDto> getPetList() {
+        return petList;
     }
 
-    public void setPetNameAgeDtoSet(Set<PetNameAgeDto> petNameAgeDtoSet) {
-        this.petNameAgeDtoSet = petNameAgeDtoSet;
+    public void setPetList(Set<PetNameAgeDto> petList) {
+        this.petList = petList;
     }
 
     public String getName() {

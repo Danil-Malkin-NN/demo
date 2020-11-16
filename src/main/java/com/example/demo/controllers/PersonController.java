@@ -1,5 +1,6 @@
 package com.example.demo.controllers;
 
+import com.example.demo.dto.PersonNameAgePetDto;
 import com.example.demo.entities.Person;
 import com.example.demo.exeption.NoEntitiesException;
 import com.example.demo.service.PersonService;
@@ -21,7 +22,7 @@ public class PersonController {
 
 
     @RequestMapping(value = "{id}" )
-    public Person personById(@PathVariable("id") Long personId){
+    public PersonNameAgePetDto getPersonById(@PathVariable("id") Long personId){
 
         return personService.getPersonById(personId);
     }
@@ -45,12 +46,20 @@ public class PersonController {
 
     }
 
-    @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public void addPerson(@RequestParam(value = "idPerson") Long idPerson,
-                          @RequestParam(value = "idPet") Long idPet){
+    @RequestMapping(value = "{id}/pet/{idPet}", method = RequestMethod.POST)
+    public void addPetPerson(@PathVariable(value = "id") Long idPerson,
+                             @PathVariable(value = "idPet") Long idPet){
         personService.addPet(idPerson, idPet);
 
     }
+
+    @RequestMapping(value = "{id}/pet/{idPet}", method = RequestMethod.DELETE)
+    public void deletePetPerson(@PathVariable(value = "id") Long idPerson,
+                          @PathVariable(value = "idPet") Long idPet){
+        personService.deletePet(idPerson, idPet);
+
+    }
+
 
 
 

@@ -1,8 +1,9 @@
 package com.example.demo.dto;
 
 public class PetNameAgeDto {
-    private Integer age;
     private String name;
+    private Integer age;
+
 
     public Integer getAge() {
         return age;

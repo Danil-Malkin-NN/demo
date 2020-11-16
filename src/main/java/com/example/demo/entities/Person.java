@@ -7,8 +7,6 @@ package com.example.demo.entities;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -39,7 +37,9 @@ public class Person {
     @ManyToMany
     @JoinTable(name = "pet_person",
             joinColumns = @JoinColumn(name = "id_person"),
-            inverseJoinColumns =@JoinColumn(name = "id_pet"))
+//            inverseJoinColumns =@JoinColumn(name = "id_pet"),
+            uniqueConstraints = {@UniqueConstraint(
+            columnNames = {"id_person", "id_pet"})})
     private Set<Pet> petList;
 
     public Set<Pet> getPetList() {
@@ -52,13 +52,13 @@ public class Person {
 
     public void addPet(Pet pet) {
         this.petList.add(pet);
-        pet.getPersonList().add(this);
+//        pet.getPersonList().add(this);
     }
 
     public void deletePet(Pet pet){
 
         this.petList.remove(pet);
-        pet.getPersonList().remove(this);
+        pet.getPersonSet().remove(this);
     }
 
 

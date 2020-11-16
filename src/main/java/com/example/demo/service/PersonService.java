@@ -43,8 +43,8 @@ public class PersonService {
         }
     }
 
-    public Person getPersonById(Long id) {
-        return customizedPersonsJpa.findById(id).get();
+    public PersonNameAgePetDto getPersonById(Long id) {
+        return mapper.map(customizedPersonsJpa.findById(id).get(), PersonNameAgePetDto.class);
     }
 
     public List<Person> getListPersonWithParam(String name){
@@ -60,11 +60,11 @@ public class PersonService {
 
     }
 
-    public List<?> getPersonDtoList(List<?> personList, Type T){
+    public List<?> getPersonDtoList(List<?> personList, Type dtoClass){
 
         List<?> dto = new ArrayList<>();
         personList.forEach(person -> {
-            dto.add(mapper.map(person, T));
+            dto.add(mapper.map(person, dtoClass));
         });
 
         return dto;
@@ -72,11 +72,19 @@ public class PersonService {
 
 
     public void addPet(Long idPerson, Long idPet){
-        Person person  = getPersonById(idPerson);
+        Person person  = customizedPersonsJpa.findPersonById(idPerson);
 
         person.addPet(petService.getPetById(idPet));
 
         customizedPersonsJpa.save(person);
+    }
+
+    public void deletePet(Long idPerson, Long idPet){
+        Person person = customizedPersonsJpa.findPersonById(idPerson);
+        person.deletePet(petService.getPetById(idPet));
+        customizedPersonsJpa.save(person);
+
+
     }
 
 

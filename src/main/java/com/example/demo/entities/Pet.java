@@ -3,7 +3,7 @@ package com.example.demo.entities;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
-import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table
@@ -27,15 +27,16 @@ public class Pet {
     @ManyToMany
     @JoinTable(name = "pet_person",
             joinColumns = @JoinColumn(name = "id_pet"),
-            inverseJoinColumns =@JoinColumn(name = "id_person"))
-    private List<Person> personList;
+            inverseJoinColumns =@JoinColumn(name = "id_person")
+    )
+    private Set<Person> personSet;
 
-    public List<Person> getPersonList() {
-        return personList;
+    public Set<Person> getPersonSet() {
+        return personSet;
     }
 
-    public void setPersonList(List<Person> personList) {
-        this.personList = personList;
+    public void setPersonSet(Set<Person> personSet) {
+        this.personSet = personSet;
     }
 
     public Long getId() {

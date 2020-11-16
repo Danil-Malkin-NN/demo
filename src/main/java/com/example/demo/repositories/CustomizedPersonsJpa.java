@@ -14,7 +14,7 @@ public interface CustomizedPersonsJpa extends JpaRepository<Person, Long> {
 
     Optional<Person> findByName(String name);
     List<Person> findAllByName(String name);
-
+    Person findPersonById(Long id);
 
 
 }
