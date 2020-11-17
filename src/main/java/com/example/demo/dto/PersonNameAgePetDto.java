@@ -4,6 +4,10 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class PersonNameAgePetDto {
+    public PersonNameAgePetDto(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
 
     private String name;
     private int age;

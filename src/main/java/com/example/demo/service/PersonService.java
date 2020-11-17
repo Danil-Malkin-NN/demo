@@ -72,7 +72,7 @@ public class PersonService {
 
 
     public void addPet(Long idPerson, Long idPet){
-        Person person  = customizedPersonsJpa.findPersonById(idPerson);
+        Person person  = customizedPersonsJpa.findPersonByIdPerson(idPerson);
 
         person.addPet(petService.getPetById(idPet));
 
@@ -80,7 +80,7 @@ public class PersonService {
     }
 
     public void deletePet(Long idPerson, Long idPet){
-        Person person = customizedPersonsJpa.findPersonById(idPerson);
+        Person person = customizedPersonsJpa.findPersonByIdPerson(idPerson);
         person.deletePet(petService.getPetById(idPet));
         customizedPersonsJpa.save(person);
 
