@@ -1,9 +1,11 @@
 package com.example.demo.dto;
 
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 public class PersonNameAgePetDto {
+    public PersonNameAgePetDto(){}
     public PersonNameAgePetDto(String name, int age) {
         this.name = name;
         this.age = age;
@@ -36,5 +38,19 @@ public class PersonNameAgePetDto {
 
     public void setAge(int age) {
         this.age = age;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        PersonNameAgePetDto dto = (PersonNameAgePetDto) o;
+        return age == dto.age &&
+                name.equals(dto.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, age);
     }
 }

@@ -18,7 +18,12 @@ public class Person {
 
     }
 
-    public Person(@NotBlank(message = "Name is mandatory") @Size(max = 45, message = "Max is 45 ") @Pattern(message = "incorrect name", regexp = "[A-X][a-z]+") String name, @Min(value = 1, message = "Minimum is 1") @Max(value = 150, message = "Maximum is 150") @NotNull(message = "Age is mandatory") Integer age) {
+    public Person(@NotBlank(message = "Name is mandatory")
+                  @Size(max = 45, message = "Max is 45 ")
+                  @Pattern(message = "incorrect name", regexp = "[A-X][a-z]+") String name,
+                  @Min(value = 1, message = "Minimum is 1")
+                  @Max(value = 150, message = "Maximum is 150")
+                  @NotNull(message = "Age is mandatory") Integer age) {
         this.name = name;
         this.age = age;
     }

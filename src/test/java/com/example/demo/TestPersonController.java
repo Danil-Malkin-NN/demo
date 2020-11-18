@@ -5,10 +5,12 @@ import static org.hamcrest.Matchers.containsString;
 import static org.mockito.Mockito.when;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import com.example.demo.controllers.PersonController;
 import com.example.demo.dto.PersonNameAgePetDto;
+import com.example.demo.entities.Person;
 import com.example.demo.service.PersonService;
 
 import com.example.demo.service.PetService;
@@ -52,5 +54,34 @@ public class TestPersonController {
                 .andExpect(jsonPath("$.age", is(expectedDto.getAge())));
 
     }
+
+
+    @Test
+    public void addNewPerson() throws Exception {
+
+        Person person = new Person("Valera", 100);
+
+
+        when(personService.addPerson(person));
+
+        this.mockMvc.perform(get("/api/person/100").contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.name", is(expectedDto.getName())))
+                .andExpect(jsonPath("$.age", is(expectedDto.getAge())));
+
+    }
+
+
+
+
+//    @Test
+//    public void addNewPerson() throws Exception {
+//
+//
+//        this.mockMvc.perform(post("/api/person")).
+//
+//    }
+
+
 
 }
