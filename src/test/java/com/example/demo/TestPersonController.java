@@ -1,7 +1,6 @@
 package com.example.demo;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.Matchers.containsString;
 import static org.mockito.Mockito.when;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -22,6 +21,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -56,20 +56,6 @@ public class TestPersonController {
     }
 
 
-    @Test
-    public void addNewPerson() throws Exception {
-
-        Person person = new Person("Valera", 100);
-
-
-        when(personService.addPerson(person));
-
-        this.mockMvc.perform(get("/api/person/100").contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.name", is(expectedDto.getName())))
-                .andExpect(jsonPath("$.age", is(expectedDto.getAge())));
-
-    }
 
 
 
